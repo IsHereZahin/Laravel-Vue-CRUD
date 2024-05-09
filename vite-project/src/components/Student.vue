@@ -140,23 +140,29 @@ export default{
             this.student = student;
         },
         update()
-           {
-              var editrecords = 'http://127.0.0.1:8000/api/student/'+ this.student.id;
-              axios.put(editrecords, this.student)
-              .then(
-                ({data})=>{
-                    alert("Updated!!!");
-                    this.StudentLoad();
-                    this.student = {
-                          id: '',
-                          name: '',
-                          address: '',
-                          phone: ''
-                        }
-                    }
-                )
-           },
-
+        {
+            var editrecords = 'http://127.0.0.1:8000/api/student/'+ this.student.id;
+            axios.put(editrecords, this.student)
+            .then(
+              ({data})=>{
+                  alert("Updated!!!");
+                  this.StudentLoad();
+                  this.student = {
+                        id: '',
+                        name: '',
+                        address: '',
+                        phone: ''
+                      }
+                  }
+              )
+        },
+        remove(student){
+            var url = `http://127.0.0.1:8000/api/student/${student.id}`;
+            // var url = 'http://127.0.0.1:8000/api/student/'+ student.id;
+            axios.delete(url);
+            alert("Deleted");
+            this.StudentLoad();
+         }
     }
 }
 </script>
