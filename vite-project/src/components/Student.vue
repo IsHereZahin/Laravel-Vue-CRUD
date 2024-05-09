@@ -6,6 +6,8 @@
             </div>
         </div>
         <div class="row">
+
+            <!-- Form -->
             <div class="col-md-4">
                 <div class="card-header">Add Record</div>
                 <div class="card-body">
@@ -32,9 +34,12 @@
                     </form>
                 </div>
             </div>
+
+            <!-- Data Table -->
             <div class="col-md-8">
                 <h2>Student List</h2>
                 <table class="table table-dark">
+
                     <thead>
                         <tr>
                         <th scope="col">ID</th>
@@ -44,9 +49,9 @@
                         <th scope="col">Option</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         <tr v-for="student in result" v-bind:key="student.id">
-
                             <td>{{ student.id }}</td>
                             <td>{{ student.name }}</td>
                             <td>{{ student.address }}</td>
@@ -55,11 +60,13 @@
                                 <button type="button" class="btn btn-warning" @click="edit(student)" style="margin-right: 5px;">Edit</button>
                                 <button type="button" class="btn btn-danger"  @click="remove(student)">Delete</button>
                             </td>
-                            </tr>
-
+                        </tr>
                     </tbody>
+
                 </table>
             </div>
+
+
         </div>
     </div>
 </template>
@@ -105,10 +112,14 @@ export default{
         {
             if(this.student.id == '')
             {
-                this.saveData();
+                this.create();
+            }
+            else
+            {
+                this.update();
             }
         },
-        saveData()
+        create()
         {
             axios.post("http://127.0.0.1:8000/api/student", this.student)
             .then(
@@ -123,7 +134,29 @@ export default{
                     }
                 }
             )
-        }
+        },
+        edit(student)
+        {
+            this.student = student;
+        },
+        update()
+           {
+              var editrecords = 'http://127.0.0.1:8000/api/student/'+ this.student.id;
+              axios.put(editrecords, this.student)
+              .then(
+                ({data})=>{
+                    alert("Updated!!!");
+                    this.StudentLoad();
+                    this.student = {
+                          id: '',
+                          name: '',
+                          address: '',
+                          phone: ''
+                        }
+                    }
+                )
+           },
+
     }
 }
 </script>

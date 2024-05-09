@@ -34,7 +34,7 @@ class StudentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $student = $this->student->findOrFail($id);
     }
 
     /**
@@ -42,7 +42,13 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $student = $this->student->findOrFail($id);
+        $student->update($request->all());
+
+        // Save the changes to the database
+        $student->save();
+
+        return $student;
     }
 
     /**
